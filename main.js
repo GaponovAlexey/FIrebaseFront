@@ -1,10 +1,8 @@
 import { db } from "./firebase"
-import { getDocs, collection, doc } from "firebase/firestore"
+import { getDocs, collection } from "firebase/firestore"
 
 const usersColRef = collection(db, "users")
 
-const data = []
-console.log("data", data)
 const getUsers = async () => {
   const res = await getDocs(usersColRef)
   return res.docs.map((e) => ({ ...e.data(), id: e.id }))
