@@ -1,22 +1,17 @@
 import { db } from "./firebase"
-import { getDocs, collection } from "firebase/firestore"
+import { getDocs, collection, doc } from "firebase/firestore"
 
 const usersColRef = collection(db, "users")
 
 const data = []
 console.log("data", data)
-async function getUsers() {
+const getUsers = async () => {
   const res = await getDocs(usersColRef)
-  data.push(res.docs.map((e) => ({ ...e.data(), id: e.id })))
-
-  console.log(data)
+  return res.docs.map((e) => ({ ...e.data(), id: e.id }))
 }
-getUsers()
-
-console.log("data", data)
-
-document.querySelector("#app").innerHTML = `
+getUsers().then((e) => {
+  document.querySelector("#app").innerHTML = `
   <div>
-    hi
-  </div>
-`
+    hi ${e[0].name}
+  </div>`
+})
