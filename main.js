@@ -1,23 +1,22 @@
-import './style.css'
-import javascriptLogo from './javascript.svg'
-import { setupCounter } from './counter.js'
+import { db } from "./firebase"
+import { getDocs, collection } from "firebase/firestore"
 
-document.querySelector('#app').innerHTML = `
+const usersColRef = collection(db, "users")
+
+const data = []
+console.log("data", data)
+async function getUsers() {
+  const res = await getDocs(usersColRef)
+  data.push(res.docs.map((e) => ({ ...e.data(), id: e.id })))
+
+  console.log(data)
+}
+getUsers()
+
+console.log("data", data)
+
+document.querySelector("#app").innerHTML = `
   <div>
-    <a href="https://vitejs.dev" target="_blank">
-      <img src="/vite.svg" class="logo" alt="Vite logo" />
-    </a>
-    <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank">
-      <img src="${javascriptLogo}" class="logo vanilla" alt="JavaScript logo" />
-    </a>
-    <h1>Hello Vite!</h1>
-    <div class="card">
-      <button id="counter" type="button"></button>
-    </div>
-    <p class="read-the-docs">
-      Click on the Vite logo to learn more
-    </p>
+    hi
   </div>
 `
-
-setupCounter(document.querySelector('#counter'))
